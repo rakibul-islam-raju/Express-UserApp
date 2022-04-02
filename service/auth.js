@@ -17,4 +17,19 @@ const registerService = async ({ name, email, password }) => {
 	return createNewUser({ name, email, password: hash });
 };
 
-module.exports = { registerService };
+const loginService = async ({ email, password }) => {
+	const user = await findUserByProperty("email", email);
+	if (!user) throw error("Invalid Credential", 400);
+
+	const isMatch = await bcrypt.compare(password, user.password);
+	if (!isMatch) throw error("Invalid Credential", 400);
+
+	const payload = {
+		_id: user._id,
+		name: user.name,
+		email: user.email,
+	};
+	return jwt.sign(payload, "secret-key", { expiresIn: "2h" });
+};
+
+module.exports = { registerService, loginService };
