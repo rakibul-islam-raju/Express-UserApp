@@ -1,4 +1,6 @@
+require("dotenv").config();
 const express = require("express");
+const { MONGODB_URL } = require("./utils");
 const connectDB = require("./db");
 const routes = require("./routes");
 
@@ -16,7 +18,7 @@ app.use((err, req, res, next) => {
 	});
 });
 
-connectDB("mongodb://localhost:27017/userApp")
+connectDB(`${MONGODB_URL}`)
 	.then(() => {
 		console.log("Database Connected");
 		app.listen(8000, () => {

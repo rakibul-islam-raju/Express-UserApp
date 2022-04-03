@@ -1,8 +1,6 @@
 const { registerService, loginService } = require("../service/auth");
 
 const registerController = async (req, res, next) => {
-	console.log(req.body);
-
 	const { name, email, password } = req.body;
 
 	// vallidation
